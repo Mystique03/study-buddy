@@ -49,6 +49,7 @@ async def test_quiz_mastery_path(client):
         else:
             # 5th correct answer → mastered
             assert data["next_step"] == "mastered"
+            assert data["state"]["quiz_score"] == 5
 
 
 async def test_quiz_exhaustion_path(client):

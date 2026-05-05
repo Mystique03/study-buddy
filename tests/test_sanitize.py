@@ -1,5 +1,5 @@
 import pytest
-from backend.routers.concept import sanitize_concept
+from backend.routers.utils import sanitize_concept
 
 
 def test_strips_whitespace():
