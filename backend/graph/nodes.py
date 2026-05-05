@@ -104,14 +104,10 @@ Return JSON with these keys:
 - explanation: Why this is the correct answer.
 Output JSON only.
 """
-    try:
-        response = await call_7b(prompt, system, require_json=True)
-        question_data = json.loads(response)
-        state["current_question"] = question_data
-        state["quiz_round"] = state.get("quiz_round", 0) + 1
-    except Exception as e:
-        logger.error(f"Error in generate_question: {e}")
-        state["current_question"] = {"error": str(e)}
+    response = await call_7b(prompt, system, require_json=True)
+    question_data = json.loads(response)
+    state["current_question"] = question_data
+    state["quiz_round"] = state.get("quiz_round", 0) + 1
     return state
 
 def evaluate_answer(state: StudyState) -> StudyState:
