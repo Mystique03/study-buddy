@@ -1,0 +1,37 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.env
+.claude
+.pytest_cache
+
+docs/
+tests/
+
+# node
+node_modules/
+dist/
+.vite/
+
+# models (too large for git)
+models/
+*.bin
+*.safetensors
+*.gguf
+
+# AMD / vLLM logs
+*.log
+nohup.out
+
+# OS
+.DS_Store
+Thumbs.db
+
+CLAUDE.md

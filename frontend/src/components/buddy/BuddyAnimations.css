@@ -1,0 +1,115 @@
+.buddy-container {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem auto;
+}
+
+.buddy-container:hover {
+    transform: scale(1.05);
+}
+
+.buddy-container img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: transparent;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+.speech-bubble {
+    background: var(--surface);
+    color: var(--text-primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 8px;
+    border: 1px solid var(--surface-raised);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    opacity: 0; /* Hidden by default in idle sequence */
+}
+
+/* 
+  The Idle Sequence Animation (smooth breathing)
+*/
+@keyframes cat-idle-sequence {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.02, 0.98) translateY(2px); } /* gentle breathe */
+}
+
+/* 
+  Speech bubble fades in on hover
+*/
+.buddy-container:hover .speech-bubble {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.speech-bubble {
+    background: var(--surface);
+    color: var(--text-primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 8px;
+    border: 1px solid var(--surface-raised);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    opacity: 0; 
+    transform: translateY(10px) scale(0.9);
+    transition: all 0.3s ease-out;
+}
+
+.mood-idle img {
+    animation: cat-idle-sequence 4s ease-in-out infinite;
+}
+
+/* Other states */
+.mood-listening img {
+    animation: pulse 1s ease-in-out infinite;
+}
+.mood-listening .speech-bubble {
+    opacity: 1;
+}
+
+.mood-thinking img {
+    animation: think-bob 1.2s ease-in-out infinite;
+    filter: brightness(0.9) drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+.mood-thinking .speech-bubble {
+    opacity: 1;
+}
+
+.mood-celebrating img {
+    animation: celebrate-bounce 0.5s ease-in-out 3;
+    filter: drop-shadow(0 0 15px rgba(124, 58, 237, 0.5));
+}
+.mood-celebrating .speech-bubble {
+    opacity: 1;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+    50% { box-shadow: 0 0 20px 10px rgba(124, 58, 237, 0); }
+}
+
+@keyframes tilt {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+@keyframes think-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes celebrate-bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.15); }
+}

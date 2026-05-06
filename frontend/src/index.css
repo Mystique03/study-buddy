@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #8b5cf6; /* Vibrant violet */
+    --color-surface: rgba(255, 255, 255, 0.7); /* Glass */
+    --color-surface-raised: rgba(255, 255, 255, 0.9);
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #475569;
+    --color-text-muted: #94a3b8;
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #3b82f6;
+    --color-bg: #f8fafc;
+  }
+
+  .dark {
+    --color-primary: #a78bfa;
+    --color-surface: rgba(15, 23, 42, 0.6); /* Glass */
+    --color-surface-raised: rgba(30, 41, 59, 0.8);
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #cbd5e1;
+    --color-text-muted: #64748b;
+    --color-bg: #020617; /* Very deep slate */
+  }
+
+  html, body {
+    @apply m-0 p-0 w-full h-full font-sans antialiased text-[var(--color-text-primary)];
+    background-color: var(--color-bg);
+    scroll-behavior: smooth;
+  }
+
+  #root {
+    @apply min-h-screen w-full flex flex-col;
+  }
+}
+
+@layer utilities {
+  .animate-pulse-ring {
+    animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  .animate-confetti {
+    animation: confetti-fall 3s ease-in-out forwards;
+  }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(var(--color-primary), 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(var(--color-primary), 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(var(--color-primary), 0); }
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
