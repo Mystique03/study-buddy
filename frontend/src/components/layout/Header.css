@@ -1,0 +1,27 @@
+.summer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    margin-bottom: 24px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo h1 {
+    font-size: 1.8rem;
+    color: var(--green-forest);
+}
+
+.lemon-icon {
+    font-size: 2rem;
+}
+
+nav {
+    display: flex;
+    gap: 12px;
+}

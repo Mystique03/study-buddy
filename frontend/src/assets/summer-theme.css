@@ -1,0 +1,81 @@
+:root {
+    --bg-white: #ffffff;
+    --bg-soft: #f4f7f5;
+    --green-sage: #a3c9a6;
+    --green-lime: #4caf50;
+    --green-forest: #1b3b22;
+    --yellow-sun: #ffeb3b;
+    --yellow-pale: #fffae6;
+    --shadow-soft: 0 4px 20px rgba(163, 201, 166, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, #ffffff 0%, var(--bg-soft) 100%);
+    color: var(--green-forest);
+    min-height: 100vh;
+}
+
+.app {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* Common Components */
+.btn-primary {
+    background: var(--yellow-sun);
+    color: var(--green-forest);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background: #ffe600;
+    box-shadow: 0 4px 12px rgba(255, 235, 59, 0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--green-lime);
+    color: var(--green-forest);
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.study-card {
+    background: var(--bg-white);
+    border: 1px solid var(--green-sage);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-soft);
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green-lime), var(--yellow-sun));
+    border-radius: 50px;
+    transition: width 0.5s ease;
+}
