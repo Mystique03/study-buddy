@@ -79,15 +79,10 @@ Do not use external dependencies if possible.
 Return a JSON object with exactly one key: 'html', containing the full HTML string.
 Output JSON only.
 """
-    try:
-        response = await call_14b(prompt, system, require_json=True)
-        visual_data = json.loads(response)
-        state["concept_page"] = state.get("concept_page", {})
-        state["concept_page"]["visual_html"] = visual_data.get("html", "")
-    except Exception as e:
-        logger.error(f"Error in generate_visual: {e}")
-        state["concept_page"] = state.get("concept_page", {})
-        state["concept_page"]["visual_html"] = f"<div>Error generating visual: {e}</div>"
+    response = await call_14b(prompt, system, require_json=True)
+    visual_data = json.loads(response)
+    state["concept_page"] = state.get("concept_page", {})
+    state["concept_page"]["visual_html"] = visual_data.get("html", "")
     return state
 
 async def generate_question(state: StudyState) -> StudyState:
