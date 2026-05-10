@@ -21,7 +21,7 @@ export default function QuizView() {
                 body: JSON.stringify({ concept: currentConcept, difficulty: quiz.difficulty, buddy_name: state.buddyName }),
             })
             const data = await res.json()
-            dispatch({ type: 'QUIZ_QUESTION', payload: data.question })
+            dispatch({ type: 'QUIZ_QUESTION', payload: data.current_question })
         } finally {
             setLoading(false)
         }
@@ -32,10 +32,23 @@ export default function QuizView() {
         setSelectedAnswer(index)
         setLoading(true)
         try {
+            const quizState = {
+                buddy_name: state.buddyName || 'Buddy',
+                mode: 'quiz',
+                current_concept: currentConcept,
+                conversation_history: [],
+                concept_page: {},
+                quiz_score: quiz.score,
+                quiz_round: quiz.round,
+                difficulty: quiz.difficulty,
+                current_question: quiz.currentQuestion,
+                saved_concepts: state.savedConcepts,
+                pending_alerts: [],
+            }
             const res = await fetch('/api/quiz/answer', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ concept: currentConcept, question: quiz.currentQuestion, answer: option, difficulty: quiz.difficulty }),
+                body: JSON.stringify({ answer_index: index, state: quizState }),
             })
             const data = await res.json()
             const correct = data.correct
@@ -43,25 +56,18 @@ export default function QuizView() {
             dispatch({ type: 'QUIZ_ANSWER', payload: { correct } })
             dispatch({ type: 'SET_MOOD', payload: correct ? 'celebrating' : 'thinking' })
 
-            setTimeout(async () => {
+            setTimeout(() => {
                 const newScore = correct ? quiz.score + 1 : quiz.score
                 const newRound = quiz.round + 1
-                if (newScore >= 5) {
+                if (newScore >= 5 || newRound >= 10) {
                     dispatch({ type: 'QUIZ_END' })
-                } else if (newRound >= 10) {
-                    dispatch({ type: 'QUIZ_END' })
-                } else {
+                } else if (data.next_step === 'continue' && data.state?.current_question) {
                     setSelectedAnswer(null)
                     setIsCorrect(null)
-                    setLoading(true)
-                    const nextRes = await fetch('/api/quiz/start', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ concept: currentConcept, difficulty: state.quiz.difficulty, buddy_name: state.buddyName }),
-                    })
-                    const nextData = await nextRes.json()
-                    dispatch({ type: 'QUIZ_QUESTION', payload: nextData.question })
+                    dispatch({ type: 'QUIZ_QUESTION', payload: data.state.current_question })
                     setLoading(false)
+                } else {
+                    dispatch({ type: 'QUIZ_END' })
                 }
             }, 1500)
         } catch (e) {

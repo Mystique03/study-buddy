@@ -42,9 +42,31 @@ export default function VoiceWidget() {
                 dispatch({ type: 'SET_TRANSCRIPT', payload: text })
 
                 const endpoint = quiz.active ? '/api/quiz/answer' : '/api/learn'
-                const payload = quiz.active
-                    ? { concept: state.currentConcept, question: quiz.currentQuestion, answer: text, difficulty: quiz.difficulty }
-                    : { concept: text, buddy_name: state.buddyName }
+                let payload
+                if (quiz.active) {
+                    const lower = text.toLowerCase()
+                    const answerIndex = (quiz.currentQuestion?.options ?? []).findIndex(opt =>
+                        lower.includes(opt.toLowerCase().slice(0, 20))
+                    )
+                    payload = {
+                        answer_index: answerIndex,
+                        state: {
+                            buddy_name: state.buddyName || 'Buddy',
+                            mode: 'quiz',
+                            current_concept: state.currentConcept,
+                            conversation_history: [],
+                            concept_page: {},
+                            quiz_score: quiz.score,
+                            quiz_round: quiz.round,
+                            difficulty: quiz.difficulty,
+                            current_question: quiz.currentQuestion,
+                            saved_concepts: state.savedConcepts,
+                            pending_alerts: [],
+                        },
+                    }
+                } else {
+                    payload = { concept: text, buddy_name: state.buddyName }
+                }
                 const llmRes = await fetch(endpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
