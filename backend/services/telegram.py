@@ -12,8 +12,15 @@ async def send_alert(papers: list[dict]) -> bool:
     lines = ["📚 *Study Buddy — New ArXiv Alerts*\n"]
     for alert in papers:
         concept = alert.get("concept", "Unknown")
-        results = alert.get("results", "No new papers.")
-        lines.append(f"*{concept}*\n{results[:400]}\n")
+        paper_list = alert.get("papers", [])
+        if not paper_list:
+            lines.append(f"*{concept}*\nNo new papers in the last 7 days.\n")
+        else:
+            paper_lines = "\n".join(
+                f"• [{p['title']}]({p['url']}) ({p['published']})"
+                for p in paper_list
+            )
+            lines.append(f"*{concept}*\n{paper_lines}\n")
 
     text = "\n".join(lines)
     url = f"https://api.telegram.org/bot{settings.telegram_bot_token}/sendMessage"

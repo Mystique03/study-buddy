@@ -94,7 +94,7 @@ async def generate_question(state: StudyState) -> StudyState:
     """Generates a multiple choice question."""
     concept = state["current_concept"]
     difficulty = state.get("difficulty", "easy")
-    
+
     prompt = f"Generate a {difficulty} difficulty multiple choice question about {concept}."
     system = """Create a multiple choice question.
 Return JSON with these keys:
@@ -108,17 +108,6 @@ Output JSON only.
     question_data = json.loads(response)
     state["current_question"] = question_data
     state["quiz_round"] = state.get("quiz_round", 0) + 1
-    return state
-
-def evaluate_answer(state: StudyState) -> StudyState:
-    """
-    Evaluates the user's answer (if we had the answer in the state).
-    In this architecture, the frontend will likely pass the answer directly to the router,
-    so this node might be bypassed or used to update the state with the result.
-    We'll let the router handle the actual comparison, but this node can represent the state update.
-    """
-    # Assuming 'last_answer_correct' is injected into the state by the router before calling the graph.
-    # We will handle scoring logic in escalate_difficulty and router.
     return state
 
 def fetch_arxiv_alerts_node(state: StudyState) -> StudyState:
